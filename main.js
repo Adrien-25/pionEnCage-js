@@ -26,5 +26,15 @@ let y = 2;
 cage.rows[x].cells[y].appendChild(pion);
 // Afficher la cage 
 objRef.appendChild(cage);
-
+// Ecouter les saisies claviers
+window.addEventListener('keydown', evt => {
+    console.log(evt.key);
+    // Modifier les coordonnées x,y en fonction de la flèche pressée
+    if (evt.key == 'ArrowUp' && x > 0) x--;
+    else if (evt.key == 'ArrowRight' && y < 4) y++;
+    else if (evt.key == 'ArrowDown' && x < 4) x++;
+    else if (evt.key == 'ArrowLeft' && y > 0) y--;
+    // Bouger le pion
+    cage.rows[x].cells[y].appendChild(pion);
+}, false);
 
