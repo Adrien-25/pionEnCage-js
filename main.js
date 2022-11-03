@@ -1,14 +1,11 @@
 "use strict"
 console.log("Début du jeu");
 // Choix du nombre de case
-let nbrCase = 5;
-//var tailleCase = 100/nbrCase - 2;
+let nbrCase = 10;
 
 // Création du pion
 let pion = document.createElement("img");
 pion.src = 'img/pion.png';
-//pion.style.height = "calc("+tailleCase+"vh - 2px)";
-//pion.style.width = " "+tailleCase+"vw";
 pion.style.height = "100px";
 pion.setAttribute("id","PionID");
 
@@ -17,7 +14,6 @@ let cage = document.createElement('table');
 cage.style.cssText = "border: 2px solid; border-collapse: collapse;margin:0px auto;";
 // Selection de la balise body html
 var objRef = document.body;
-//objRef.style.cssText = "padding: 200px;"
 // Ajout des rangées
 for (let x = 0; x < nbrCase; x++) {
     // Créer une rangée
@@ -47,30 +43,22 @@ window.addEventListener('keydown', evt => {
     else if (evt.key == 'ArrowLeft' && y > 0) y--;
     // Bouger le pion
     cage.rows[x].cells[y].appendChild(pion);
-
     let pionBonusID = document.getElementById('PionID');
-    // let pionBonusIDX = pionBonusID.rowIndex;
-    // console.log(pionBonusIDX);
-    //console.log(x+" | "+y+" | "+pionBonusID+" | "+yAleatoire);
-
     //var tdList = document.getElementsByTagName("td");
     var tdList = document.getElementsByClassName ("td");
-    console.log(tdList);
     var i;
     for (i = 0; i < tdList.length;i++) {
         var PionTest = tdList[i].querySelector('#PionID');
-        console.log(PionTest);
         var PionBonusTest = tdList[i].querySelector('#pionBonus');
-        console.log(PionBonusTest);
-        //console.log(imgTest);
         if ((PionTest !=null) && (PionBonusTest != null)){
             console.log("meme case");
             clearInterval(IntervalPionBonus)
-            
+            PionBonusTest.remove();
+            console.log(PionTest);
+            PionTest.src = 'img/bravo.png';
         }
     }
 }, false);
-
 
 var IntervalPionBonus = setInterval(placementPionBonus, 1000);
 // Ajout du pion bonus 
@@ -86,11 +74,9 @@ function placementPionBonus(){
         var xAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1;
         var yAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1; 
     } while ((xAleatoire == x) && (yAleatoire == y));
-    //console.log('abscisse = '+xAleatoire+' | ordonnée =  '+ yAleatoire);
     let pionBonus = document.createElement("img");
     pionBonus.src = 'img/bonus.png';
     pionBonus.setAttribute("id","pionBonus");
-    //pionBonus.style.height = "calc("+tailleCase+"vh - 2px)";
     pionBonus.style.height = "100px";
     cage.rows[xAleatoire].cells[yAleatoire].appendChild(pionBonus);
 }
