@@ -1,15 +1,16 @@
 "use strict"
 console.log("Début du jeu");
 // Choix du nombre de case
-let nbrCase = 10;
-var tailleCase = 100/nbrCase - 2    ;
-console.log(tailleCase);
+let nbrCase = 5;
+//var tailleCase = 100/nbrCase - 2;
+//console.log(tailleCase);
 
 // Création du pion
 let pion = document.createElement("img");
 pion.src = 'img/pion.png';
-pion.style.height = "calc("+tailleCase+"vh - 2px)";
+//pion.style.height = "calc("+tailleCase+"vh - 2px)";
 //pion.style.width = " "+tailleCase+"vw";
+pion.style.height = "100px";
 
 // Création de la cage avec un élément TABLE
 let cage = document.createElement('table');
@@ -25,9 +26,8 @@ for (let x = 0; x < nbrCase; x++) {
     for (let y = 0;y < nbrCase; y++){
         //Créer une cellule
         let td = tr.insertCell();
-        td.style.cssText = "border: 1px solid; width:"+tailleCase+"vw; height:"+tailleCase+"vh; font-size: 0;text-align:center";
-        //td.style.cssText = "border: 1px solid; width:auto; height:"+tailleCase+"vh; font-size: 0;text-align:center";
-
+        //td.style.cssText = "border: 1px solid; width:"+tailleCase+"vw; height:"+tailleCase+"vh; font-size: 0;text-align:center";
+        td.style.cssText = "border: 1px solid; width:100px; height:100px; font-size: 0;text-align:center";
     }
 }
 // Positionner le pion initiallement au centre 
@@ -46,23 +46,40 @@ window.addEventListener('keydown', evt => {
     else if (evt.key == 'ArrowLeft' && y > 0) y--;
     // Bouger le pion
     cage.rows[x].cells[y].appendChild(pion);
+    var pionBonusID = document.getElementById('pionBonus');
+    console.log(pionBonusID);
 }, false);
+
+
+var IntervalPionBonus = setInterval(placementPionBonus, 1000);
 // Ajout du pion bonus 
 function placementPionBonus(){
- 
-    let xAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1;
-    let yAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1; 
-    console.log('abscisse = '+xAleatoire+' | ordonnée =  '+ yAleatoire);
+    let pionBonusID = document.getElementById('pionBonus');
+    if (pionBonusID){
+        pionBonusID.remove();
+    }
+    // console.log(x+" | "+y+" | "+xAleatoire+" | "+yAleatoire);
+    // if ((xAleatoire == x) && (yAleatoire == y)){
+    //     console.log('arret');
+
+    //     clearInterval(IntervalPionBonus);
+    // }
+    do  {
+        var xAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1;
+        var yAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1; 
+    } while ((xAleatoire == x) && (yAleatoire == y));
+    //console.log('abscisse = '+xAleatoire+' | ordonnée =  '+ yAleatoire);
     let pionBonus = document.createElement("img");
     pionBonus.src = 'img/bonus.png';
-    pionBonus.style.height = "calc("+tailleCase+"vh - 2px)";
+    pionBonus.setAttribute("id","pionBonus");
+    //pionBonus.style.height = "calc("+tailleCase+"vh - 2px)";
+    pionBonus.style.height = "100px";
     cage.rows[xAleatoire].cells[yAleatoire].appendChild(pionBonus);
-    console.log(pionBonus);
+    //console.log(pionBonus);
+    //console.log(x+" | "+y+" | "+xAleatoire+" | "+yAleatoire);
+
+    
 }
 
-
-
-
-setInterval(placementPionBonus, 1000);
 
 
