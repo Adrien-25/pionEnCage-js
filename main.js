@@ -3,7 +3,6 @@ console.log("Début du jeu");
 // Choix du nombre de case
 let nbrCase = 5;
 //var tailleCase = 100/nbrCase - 2;
-//console.log(tailleCase);
 
 // Création du pion
 let pion = document.createElement("img");
@@ -11,10 +10,11 @@ pion.src = 'img/pion.png';
 //pion.style.height = "calc("+tailleCase+"vh - 2px)";
 //pion.style.width = " "+tailleCase+"vw";
 pion.style.height = "100px";
+pion.setAttribute("id","PionID");
 
 // Création de la cage avec un élément TABLE
 let cage = document.createElement('table');
-cage.style.cssText = "border: 2px solid; border-collapse: collapse";
+cage.style.cssText = "border: 2px solid; border-collapse: collapse;margin:0px auto;";
 // Selection de la balise body html
 var objRef = document.body;
 //objRef.style.cssText = "padding: 200px;"
@@ -27,7 +27,8 @@ for (let x = 0; x < nbrCase; x++) {
         //Créer une cellule
         let td = tr.insertCell();
         //td.style.cssText = "border: 1px solid; width:"+tailleCase+"vw; height:"+tailleCase+"vh; font-size: 0;text-align:center";
-        td.style.cssText = "border: 1px solid; width:100px; height:100px; font-size: 0;text-align:center";
+        td.style.cssText = "border: 1px solid; width:100px; height:100px; font-size: 0; text-align:center";
+        td.setAttribute("class","td");
     }
 }
 // Positionner le pion initiallement au centre 
@@ -46,24 +47,41 @@ window.addEventListener('keydown', evt => {
     else if (evt.key == 'ArrowLeft' && y > 0) y--;
     // Bouger le pion
     cage.rows[x].cells[y].appendChild(pion);
-    var pionBonusID = document.getElementById('pionBonus');
-    console.log(pionBonusID);
+
+    let pionBonusID = document.getElementById('PionID');
+    // let pionBonusIDX = pionBonusID.rowIndex;
+    // console.log(pionBonusIDX);
+    //console.log(x+" | "+y+" | "+pionBonusID+" | "+yAleatoire);
+
+    //var tdList = document.getElementsByTagName("td");
+    var tdList = document.getElementsByClassName ("td");
+    console.log(tdList);
+    var i;
+    for (i = 0; i < tdList.length;i++) {
+        var PionTest = tdList[i].querySelector('#PionID');
+        console.log(PionTest);
+        var PionBonusTest = tdList[i].querySelector('#pionBonus');
+        console.log(PionBonusTest);
+        //console.log(imgTest);
+        if ((PionTest !=null) && (PionBonusTest != null)){
+            console.log("meme case");
+            clearInterval(IntervalPionBonus)
+            
+        }
+    }
 }, false);
 
 
 var IntervalPionBonus = setInterval(placementPionBonus, 1000);
 // Ajout du pion bonus 
 function placementPionBonus(){
-    let pionBonusID = document.getElementById('pionBonus');
-    if (pionBonusID){
-        pionBonusID.remove();
+    console.log(x+" | "+y+" | "+xAleatoire+" | "+yAleatoire);
+    if ((xAleatoire == x) && (yAleatoire == y)){
+        console.log('arret');
+        clearInterval(IntervalPionBonus);
     }
-    // console.log(x+" | "+y+" | "+xAleatoire+" | "+yAleatoire);
-    // if ((xAleatoire == x) && (yAleatoire == y)){
-    //     console.log('arret');
-
-    //     clearInterval(IntervalPionBonus);
-    // }
+    let pionBonusID = document.getElementById('pionBonus');
+    if (pionBonusID){pionBonusID.remove();}
     do  {
         var xAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1;
         var yAleatoire = Math.floor(Math.random() * (nbrCase - 1)) + 1; 
@@ -75,10 +93,6 @@ function placementPionBonus(){
     //pionBonus.style.height = "calc("+tailleCase+"vh - 2px)";
     pionBonus.style.height = "100px";
     cage.rows[xAleatoire].cells[yAleatoire].appendChild(pionBonus);
-    //console.log(pionBonus);
-    //console.log(x+" | "+y+" | "+xAleatoire+" | "+yAleatoire);
-
-    
 }
 
 
